@@ -5,6 +5,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController; 
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Models\Category;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -146,3 +148,6 @@ Route::post('email/verification-notification',function(Request $request)
 	//redirect back with message
 	return back()->with('sent','verification link sent succesefully !');
 })->middleware(['auth','throttle:6,1'])->name('verification.send');
+
+//categories
+Route::resource('categories',CategoryController::class,['except' => ['create']]) ;

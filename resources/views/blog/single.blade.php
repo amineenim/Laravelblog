@@ -9,6 +9,10 @@
 		<p>
 			{{ $post->body}}
 		</p>
+		<hr>
+		<p class="lead">
+			Posted In: {{ $post->category->name }}
+		</p>
 	</div>
 </div>
 @endsection

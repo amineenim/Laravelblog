@@ -57,3 +57,9 @@
 	<strong>Message:</strong>{{ session()->get('verified')}}
 </div>
 @endif
+
+@if(session()->has('categoryadded'))
+<div class="alert alert-success" role="alert">
+	<strong>Success :</strong>{{ session()->get('categoryadded')}}
+</div>
+@endif

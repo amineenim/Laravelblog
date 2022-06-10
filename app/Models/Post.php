@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+    //relate post model to category model
+    public function category()
+    {
+    	return $this->belongsTo(Category::class);
+    }
 }
