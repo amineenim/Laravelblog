@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Category;
 
 class PostController extends Controller
 {
@@ -32,7 +33,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create') ;
+        $categories = Category::all() ;
+        return view('posts.create')->with('categories',$categories) ;
     }
 
     /**
@@ -45,13 +47,17 @@ class PostController extends Controller
     { 
     //validate the request 
         $validated = $request->validate(
-            ['title' => 'required|max:255',
-             'body'  => 'required|max:255',]);
+            ['title'      => 'required|max:255',
+             'body'       => 'required|max:255',
+            'category_id' => 'required|integer',
+            ]);
         //store the post to the database
         $post = new Post ;
         $post->title = $request->title ;
         $post->slug = Str::slug($request->title,"-") ;
         $post->body = $request->body ;
+        $post->category_id = $request->category_id ;
+        $post->user_id = $request->user()->id ;
         $post->save();
         $request->session()->flash('message','task done successfuly !') ;
         //redirect the user to posts.show to show the post just stored 
@@ -81,11 +87,22 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit($slug,Request $request)
     {
-        //retreive the model with the given id from database and displaying it within a form so user can edit it 
+        //retreive the post model to edit by slug 
         $post = Post::where('slug',$slug)->first() ;
-        return view('posts.edit')->with('post',$post) ;
+        //verify if the user is athorized to edit the post 
+
+        if($request->user()->can('edit',$post))
+        {
+        //retreive all categories
+        $categories = Category::all() ;
+        //retreive the model with the corresponding slug from database and displaying it within a form so user can edit it 
+        $post = Post::where('slug',$slug)->first() ;
+        return view('posts.edit')->with(['post' => $post, 'categories' => $categories]) ;
+        }
+        //if not authorized 
+        return redirect()->route('posts.index')->with('notauthorized',' you re not authorized to edit this post') ;
     }
 
     /**
@@ -97,22 +114,32 @@ class PostController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        //validate incoming data from the post and storing to database
-        $validatedPost = $request->validate(
-            ['title'=>'required|max:255',
-             'body' => 'required|max:255',]);
-        //storing to database
-        $post = Post::where('slug', $slug)->first() ;
-        $post->title = $request->input('title') ;
-        $post->slug = Str::slug($request->input('title'),"-") ;
-        $post->body = $request->input('body') ;
-        $post->save() ;
+        //retreive the post with corresponding slug 
+        $post = Post::where('slug',$slug)->first() ;
+        if($request->user()->can('update',$post))
+        {
+            //validate incoming data from the post and storing to database
+            $validatedPost = $request->validate(
+            ['title'      =>'required|max:255',
+             'body'       => 'required|max:255',
+             'category_id' => 'required|integer',]);
+            //storing to database
+            $post = Post::where('slug', $slug)->first() ;
+            $post->title = $request->input('title') ;
+            $post->slug = Str::slug($request->input('title'),"-") ;
+            $post->body = $request->input('body') ;
+            $post->category_id = $request->input('category_id') ;
+            $post->save() ;
 
-        //set flash data with success message
-        $request->session()->flash('success',' the post was successfully updated ') ;
+            //set flash data with success message
+            $request->session()->flash('success',' the post was successfully updated ') ;
 
-        //redirect to posts.show with flashing data
-        return redirect()->route('posts.show',$post->slug) ;
+            //redirect to posts.show with flashing data
+            return redirect()->route('posts.show',$post->slug) ;
+        }
+
+        $request->session()->flash('danger',' the post you try to update not yours you re only allowed to see it ') ;
+        return redirect()->route('blog.single')->with('slug',$slug) ;
 
     }
 

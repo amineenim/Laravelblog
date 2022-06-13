@@ -63,3 +63,21 @@
 	<strong>Success :</strong>{{ session()->get('categoryadded')}}
 </div>
 @endif
+
+@if(session()->has('tagcreated'))
+<div class="alert alert-success" role="alert">
+	<strong>Success :</strong>{{ session()->get('tagcreated')}}
+</div>
+@endif
+
+@if(session()->has('notauthorized'))
+<div class="alert alert-danger" role="alert">
+	<strong>Warning :</strong>{{ session()->get('notauthorized')}}
+</div>
+@endif
+
+@if(session()->has('danger'))
+<div class="alert alert-danger" role="alert">
+	<strong>Warning :</strong>{{ session()->get('danger')}}
+</div>
+@endif

@@ -19,6 +19,15 @@
 				<label for="body">Post :</label>
 				<textarea class="form-control" id="body" name="body"></textarea>
 			</div>
+			<br>
+			<div class="form-group">
+				<label for="category_id">Category :</label>
+				<select id="category_id" class="custom-select" name="category_id">
+					@foreach($categories as $category)
+					<option value="{{ $category->id}}">{{ $category->name}}</option>
+					@endforeach
+				</select>
+			</div>
 			<button type="submit" class="btn btn-success btn-lg" style="margin-top: 20px;">Create Post
 			</button>
 		</form>

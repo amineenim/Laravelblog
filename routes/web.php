@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController; 
+use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -151,3 +152,5 @@ Route::post('email/verification-notification',function(Request $request)
 
 //categories
 Route::resource('categories',CategoryController::class,['except' => ['create']]) ;
+//tags
+Route::resource('tags',TagController::class,['except' => ['create']]) ;

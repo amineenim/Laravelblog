@@ -15,6 +15,15 @@
 				<textarea class="form-control" id="body" name="body" rows="5">{{$post->body}}
 				</textarea>
 			</div>
+      <br>
+      <div class="form-group">
+        <label for="category_id"><strong>Set Your New Category :</strong></label>
+        <select name="category_id" id="category_id">
+          @foreach ($categories as $category)
+          <option value="{{ $category->id }}">{{ $category->name }}</option>
+          @endforeach 
+        </select>
+      </div>
       <hr>
       <div class=" d-flex justify-content-center">
         <div class="col-4">
