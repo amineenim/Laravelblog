@@ -14,7 +14,7 @@
 			<p class="lead">
 				{{ substr($post->body,0,250)}} {{strlen($post->body) > 200 ? "...": ""}}
 			</p>
-			<a href="{{ route('blog.single',['slug' => $post->slug]) }}" class="btn btn-success">Read More</a>
+			<a href="{{ route('blog.single',['slug' => $post->slug,]) }}" class="btn btn-success">Read More</a>
 		</div>
 	</div>
 	@endforeach

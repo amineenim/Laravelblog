@@ -24,6 +24,14 @@
           @endforeach 
         </select>
       </div>
+      <div class="form-group ">
+        <label for="tag_id">Tag :</label>
+        <select id="tag_id" class="form-select form-select-lg mb-3" name="tags[]" multiple data-mdb-clear-button="true">
+          @foreach($tags as $tag)
+          <option value="{{ $tag->id}}">{{ $tag->name}}</option>
+          @endforeach
+        </select>
+      </div>
       <hr>
       <div class=" d-flex justify-content-center">
         <div class="col-4">

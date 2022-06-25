@@ -81,3 +81,21 @@
 	<strong>Warning :</strong>{{ session()->get('danger')}}
 </div>
 @endif
+
+@if(session()->has('tagdeleted'))
+<div class="alert alert-success" role="alert">
+	<strong>Warning :</strong>{{ session()->get('tagdeleted')}}
+</div>
+@endif
+
+@if(session()->has('contactmailsent'))
+<div class="alert alert-success" role="alert">
+	<strong>Warning :</strong>{{ session()->get('contactmailsent')}}
+</div>
+@endif
+
+@if(session()->has('warning'))
+<div class="alert alert-success" role="alert">
+	<strong>Warning :</strong>{{ session()->get('warning')}}
+</div>
+@endif

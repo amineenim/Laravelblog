@@ -50,7 +50,10 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        //
+        //retreive the tag model with the corresponding id 
+        $tag = Tag::find($id) ;
+        //pass the model to the view to be diplayed
+        return view('tags.show')->with('tag',$tag) ;
     }
 
     /**
@@ -61,7 +64,9 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        //return the view containing the form to edit the given tag
+        $tag = Tag::find($id) ;
+        return view('tags.edit')->with('tag',$tag);
     }
 
     /**
@@ -73,7 +78,14 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //validate the request
+        $validated = $request->validate(
+            ['name' => 'required|max:255']);
+        $tag = Tag::find($id) ;
+        $tag->name = $request->name ;
+        $tag->save() ;
+        $request->session()->flash('success','Tag updated with success !') ;
+        return redirect()->route('tags.show',$tag->id);
     }
 
     /**
@@ -82,8 +94,13 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id,Request $request)
     {
-        //
+        //retreive the tag model with the corresponding id 
+        $tag = Tag::find($id) ;
+        $tag->posts()->detach() ;
+        $tag->delete() ;
+        $request->session()->flash('tagdeleted','the tag was successefully deleted !') ;
+        return redirect()->route('tags.index') ;
     }
 }

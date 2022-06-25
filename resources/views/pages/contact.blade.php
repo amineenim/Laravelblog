@@ -1,29 +1,30 @@
 @extends('main')
 @section('content')
-    	<div class="row">
-    		<div class="col-md-12">
+    	<div class="row justify-content-center">
+    		<div class="col-md-8 col-offset-2">
     			<h1>Contact Me</h1>
     			<hr>
     			<p> 
-    				<form method="POST" action="">
+    				<form method="POST" action="{{ route('contact.post')}}">
+                        @csrf
     					<div class="form-group">
-    						<label name="email">Email :</label>
+    						<label for="email">Email :</label>
     						<input type="email" name="email" id="email" placeholder="amine@exemple.com" class="form-control">
     					</div>
 
     					<div class="form-group">
-    						<label name="content">Subject :</label>
-    						<input type="text" name="content" id="content" placeholder="login error for example" class="form-control">
+    						<label for="subject">Subject :</label>
+    						<input type="text" name="subject" id="subject" placeholder="Try to describe simply the subject of your email" class="form-control">
     					</div>
 
     					<div class="form-group">
-    						<label name="message">Message :</label>
-    						<textarea name="message" id="message" class="form-control">feel free to describe in detail any problem that you may encounter while navigating in our Blog
+    						<label for="message">Message :</label>
+    						<textarea name="message" id="message" class="form-control">
     						</textarea> 
     					</div>
     					<hr>
     					<div>
-    						<input type="submit" class="btn btn-success" name="send Message">
+    						<button type="submit" class="btn btn-success" >Send Mail</button>
     					</div>
     				</form>
     		    </p>

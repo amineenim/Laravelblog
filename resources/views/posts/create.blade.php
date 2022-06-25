@@ -17,14 +17,22 @@
 			</div>
 			<div class="form-group">
 				<label for="body">Post :</label>
-				<textarea class="form-control" id="body" name="body"></textarea>
+				<textarea class="form-control" id="body" name="body" rows="5"></textarea>
 			</div>
 			<br>
 			<div class="form-group">
 				<label for="category_id">Category :</label>
-				<select id="category_id" class="custom-select" name="category_id">
+				<select id="category_id" class="form-select form-select-lg" name="category_id">
 					@foreach($categories as $category)
 					<option value="{{ $category->id}}">{{ $category->name}}</option>
+					@endforeach
+				</select>
+			</div>
+			<div class="form-group ">
+				<label for="tag_id">Tag :</label>
+				<select id="tag_id" class="form-select form-select-lg mb-3" name="tags[]" multiple data-mdb-clear-button="true">
+					@foreach($tags as $tag)
+					<option value="{{ $tag->id}}">{{ $tag->name}}</option>
 					@endforeach
 				</select>
 			</div>

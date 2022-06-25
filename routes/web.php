@@ -7,6 +7,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController; 
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -30,7 +31,8 @@ use App\Models\Category;
 
 Route::get('/',[PagesController::class, 'getIndex']) ;
 Route::get('/about',[PagesController::class,'getAbout']);
-Route::get('/contact',[PagesController::class,'getContact']);
+Route::get('/contact',[PagesController::class,'getContact'])->name('contact.get');
+Route::post('/contact',[PagesController::class,'postContact'])->name('contact.post');
 Route::get('blog/{slug}',[BlogController::class,'getSingle'])->name('blog.single');
 Route::get('blog',[BlogController::class,'index'])->name('blog.index') ;
 Route::resource('posts',PostController::class) ;
@@ -154,3 +156,10 @@ Route::post('email/verification-notification',function(Request $request)
 Route::resource('categories',CategoryController::class,['except' => ['create']]) ;
 //tags
 Route::resource('tags',TagController::class,['except' => ['create']]) ;
+//comments
+Route::post('posts/{slug}/comments',[CommentController::class,'store'])->name('comments.store') ;
+Route::get('comments/{id}/edit',[CommentController::class,'edit'])->name('comments.edit');
+Route::put('comments/{id}/edit',[CommentController::class,'update'])->name('comments.update');
+
+Route::get('comments/{id}/delete',[CommentController::class,'delete'])->name('comments.delete') ;
+Route::delete('comments/{id}/delete',[CommentController::class,'destroy'])->name('comments.destroy') ;

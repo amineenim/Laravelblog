@@ -27,7 +27,8 @@ class AuthController extends Controller
     		//user successefully authenticated 
     		//regenerating user session 
     		$request->session()->regenerate() ;
-    		$request->session()->flash('authsucces','Bienvenue sur notre blog vous etes authentifié !') ;
+            $user = $request->user();
+    		$request->session()->flash('authsucces','Welcome back again'." $user->name" ) ;
     		return redirect()->route('posts.index') ;
     	}
     	return back()->withErrors('submitted data doesn\'t correspond to our database records !')->onlyInput('email') ;
